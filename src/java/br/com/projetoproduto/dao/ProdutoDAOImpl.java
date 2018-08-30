@@ -1,0 +1,83 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.com.projetoproduto.dao;
+
+import br.com.projetoproduto.model.Produto;
+import br.com.projetoproduto.util.ConnectionFactory;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
+
+/**
+ *
+ * @author PC 05
+ */
+public class ProdutoDAOImpl implements GenericDAO {
+    
+    private Connection conexao;
+    
+    public ProdutoDAOImpl() throws Exception{
+        try{
+            this.conexao = ConnectionFactory.getConnection();
+            System.out.println("Conectado com sucesso!");            
+        }catch(Exception ex){
+            throw new Exception (ex.getMessage());
+        }
+    }
+    @Override
+    public Boolean cadastrar(Object objeto) {
+       Produto produto = (Produto) objeto;
+      PreparedStatement stmt = null;
+      String sql = "INSERT INTO produto(descricaoProduto,marcaProduto,"
+              + "valorProduto) VALUES (?, ?, ?)";
+      
+      try{
+          stmt = conexao.prepareStatement(sql);
+          stmt.setString(1,produto.getDescricaoProduto());   
+          stmt.setString(2,produto.getMarcaProduto());
+          stmt.setFloat(3,produto.getValorProduto());
+          stmt.execute();
+          
+          return true;
+      }catch(SQLException ex){
+          System.out.println("Problemas ao cadastrar produto! Erro" + ex.getMessage());
+          return false;
+      }finally{
+          try{
+              ConnectionFactory.closeConnection(conexao, stmt);
+          }catch(Exception ex){
+              System.out.println("Problemas ao fechar os parâmetros de conexão! " + ex.getMessage());
+          }
+      }
+    }
+
+    @Override
+    public Boolean inserir(Object objeto) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean alterar(Object objeto) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean excluir(int numero) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Object carregar(int numero) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Object> Listar() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+}
