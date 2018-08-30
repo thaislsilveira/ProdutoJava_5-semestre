@@ -1,9 +1,12 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%-- 
     Document   : cadastrarProduto
     Created on : 30/08/2018, 08:48:06
     Author     : PC 05
 --%>
 
+<%@page import="br.com.projetoproduto.model.Produto"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,33 +16,36 @@
         <title>Controle de Produto</title>
     </head>
     <body>
-
         <h1 class="font-weight-light text-primary" align="center">Fatec Jales</h1>
         <hr>
-        <div class="container">
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <strong>O cadastro .. ${mensagem}</strong> 
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form name="cadastrarproduto" id="cadastrarproduto" action="CadastrarProduto"  method="POST">
+        <c:if test="${not empty mensagem}">
+            <div class="container">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>O cadastro .. ${mensagem}</strong> 
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div> 
+        </c:if>
+        <div class="container">           
+            <form action="CadastrarProduto"  method="POST">
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="descricaoProduto">Descrição:</label>
-                        <input type="text" class="form-control" id="descricaoProduto" name="descricaoProduto" >
+                        <input type="text" class="form-control" id="descricaoProduto" name="descricaoProduto" value="${produto.descricaoProduto}" >
                     </div>
                     <div class="form-group col-md-6">
                         <label for="marcaProduto">Marca:</label>
-                        <input type="text" class="form-control" id="marcaProduto" name="marcaProduto">
+                        <input type="text" class="form-control" id="marcaProduto" name="marcaProduto" value="${produto.marcaProduto}" >
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="valorProduto">Valor:</label>
-                    <input  type="text" name="valorProduto" id="valorProduto" class="form-control">
+                    <input  type="text" name="valorProduto" id="valorProduto" class="form-control" value="${produto.valorProduto}" >
                 </div>               
-                <button type="submit" name="cadastrar" id="cadastrar" value="Cadastrar" class="btn btn-primary">Cadastrar</button>
-                <button href="index.jsp" name="cadastrar" id="voltar" value="Voltar" class="btn btn-primary">Voltar</button>
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                <a href="index.jsp" class="btn btn-primary">Voltar</a>
             </form>
         </div>       
     </body>

@@ -35,15 +35,14 @@ public class CadastrarProduto extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String descricaoProduto = request.getParameter("descricaoProduto");
-        String marcaProduto = request.getParameter("marcaProduto");   
+        String marcaProduto = request.getParameter("marcaProduto");
         float valorProduto = Float.parseFloat(request.getParameter("valorProduto"));
         String mensagem = null;
 
-         Produto oProduto = new Produto();
+        Produto oProduto = new Produto();
         oProduto.setDescricaoProduto(descricaoProduto);
         oProduto.setMarcaProduto(marcaProduto);
         oProduto.setValorProduto(valorProduto);
-      
 
         try {
             GenericDAO dao = new ProdutoDAOImpl();
@@ -53,6 +52,7 @@ public class CadastrarProduto extends HttpServlet {
                 mensagem = " Problemas ao cadastrar produto";
             }
             request.setAttribute("mensagem", mensagem);
+            request.setAttribute("produto", oProduto);
             request.getRequestDispatcher("cadastrarProduto.jsp").forward(request, response);
         } catch (Exception ex) {
             System.out.println("Problemas no Servlet ao cadastrar produto! Erro " + ex.getMessage());
