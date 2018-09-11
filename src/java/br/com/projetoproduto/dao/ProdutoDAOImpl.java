@@ -69,8 +69,26 @@ public class ProdutoDAOImpl implements GenericDAO {
     }
 
     @Override
-    public Boolean excluir(int numero) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Boolean excluir(int idObject) {
+        PreparedStatement stmt = null;
+
+        String sql = "DELETE FROM produto WHERE idproduto = ?";
+        try {
+            stmt = conexao.prepareStatement(sql);
+
+            stmt.setInt(1, idObject);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Problemas ao excluir usuários! Erro: " + ex.getMessage());
+            return false;
+        } finally {
+            try {
+                ConnectionFactory.closeConnection(conexao, stmt);
+            } catch (Exception ex) {
+                System.out.println("Problemas ao fechar os parâmetros de conexão!! Erro " + ex.getMessage());
+            }
+        }
     }
 
     @Override

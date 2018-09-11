@@ -33,16 +33,16 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="descricaoProduto">Descrição:</label>
-                        <input type="text" class="form-control" id="descricaoProduto" name="descricaoProduto" value="${produto.descricaoProduto}" >
+                        <input type="text" class="form-control" id="descricaoProduto" name="descricaoProduto">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="marcaProduto">Marca:</label>
-                        <input type="text" class="form-control" id="marcaProduto" name="marcaProduto" value="${produto.marcaProduto}" >
+                        <input type="text" class="form-control" id="marcaProduto" name="marcaProduto">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="valorProduto">Valor:</label>
-                    <input  type="text" name="valorProduto" id="valorProduto" class="form-control" value="${produto.valorProduto}" >
+                    <input  type="text" name="valorProduto" id="valorProduto" class="form-control">
                 </div>               
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
                 <a href="index.jsp" class="btn btn-primary">Voltar</a>

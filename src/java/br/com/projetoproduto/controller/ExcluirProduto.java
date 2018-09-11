@@ -7,7 +7,6 @@ package br.com.projetoproduto.controller;
 
 import br.com.projetoproduto.dao.GenericDAO;
 import br.com.projetoproduto.dao.ProdutoDAOImpl;
-import br.com.projetoproduto.model.Produto;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -20,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author PC 05
  */
-@WebServlet(name = "CadastrarProduto", urlPatterns = {"/CadastrarProduto"})
-public class CadastrarProduto extends HttpServlet {
+@WebServlet(name = "ExcluirProduto", urlPatterns = {"/ExcluirProduto"})
+public class ExcluirProduto extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,27 +33,24 @@ public class CadastrarProduto extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String descricaoProduto = request.getParameter("descricaoProduto");
-        String marcaProduto = request.getParameter("marcaProduto");
-        float valorProduto = Float.parseFloat(request.getParameter("valorProduto"));
-        String mensagem = null;
-
-        Produto oProduto = new Produto();
-        oProduto.setDescricaoProduto(descricaoProduto);
-        oProduto.setMarcaProduto(marcaProduto);
-        oProduto.setValorProduto(valorProduto);
-
-        try {
-            GenericDAO dao = new ProdutoDAOImpl();
-            if (dao.cadastrar(oProduto)) {
-                mensagem = "Foi realizado com sucesso!";
-            } else {
-                mensagem = " Problemas ao cadastrar produto";
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            
+              int idProduto = Integer.parseInt(request.getParameter("idProduto"));
+            String mensagem = null;
+            
+            try{
+                GenericDAO dao = new ProdutoDAOImpl();
+                if(dao.excluir(idProduto)){
+                    mensagem = "Produto excluído com sucesso!!";
+                }else{
+                    mensagem = "Problemas ao excluir Produto!!";
+                }     
+                request.setAttribute("mensagem", mensagem);
+                request.getRequestDispatcher("ListarProduto").forward(request, response);
+            }catch(Exception ex){
+                System.out.println("Problemas no Servlet ao excluir Produto!! Erro : " + ex.getMessage());
             }
-            request.setAttribute("mensagem", mensagem);
-            request.getRequestDispatcher("ListarProduto").forward(request, response);
-        } catch (Exception ex) {
-            System.out.println("Problemas no Servlet ao cadastrar produto! Erro " + ex.getMessage());
         }
     }
 

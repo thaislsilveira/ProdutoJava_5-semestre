@@ -23,7 +23,7 @@ public class ConnectionFactory {
         try{
             //Carregar o driver do postgresql
             Class.forName("org.postgresql.Driver");
-            return DriverManager.getConnection("jdbc:postgresql://localhost:5432/Produto","postgres", "123456");
+            return DriverManager.getConnection("jdbc:postgresql://localhost:5432/produto","postgres", "123456");
         }
         catch(Exception e){
             //manda uma menssagem de erro
