@@ -65,7 +65,29 @@ public class ProdutoDAOImpl implements GenericDAO {
 
     @Override
     public Boolean alterar(Object objeto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Produto produto = (Produto) objeto;
+        PreparedStatement stmt = null;
+        String sql = "update produto set descricaoProduto = ?, marcaproduto = ?, valorProduto = ? where idProduto = ?;";
+        
+        try{
+            stmt = conexao.prepareStatement(sql);
+            stmt.setString(1, produto.getDescricaoProduto());            
+            stmt.setString(2, produto.getMarcaProduto());
+            stmt.setFloat(3, produto.getValorProduto());          
+            stmt.setInt(4, produto.getIdProduto());            
+            stmt.executeUpdate();
+            
+            return true;
+        }catch(SQLException ex){
+            System.out.println("Problemas ao alterar produto! Erro " + ex.getMessage());
+            return false;            
+        }finally{
+            try{
+                ConnectionFactory.closeConnection(conexao, stmt);
+            }catch(Exception ex){
+                System.out.println("Problemas ao fechar os parâmetros de conexão! Erro: " + ex.getMessage());
+            }
+        }
     }
 
     @Override
@@ -93,7 +115,31 @@ public class ProdutoDAOImpl implements GenericDAO {
 
     @Override
     public Object carregar(int numero) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Produto oProduto = new Produto();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String sql = "select * from produto where idProduto = ?;";
+        try {
+            stmt = conexao.prepareStatement(sql);
+            stmt.setInt(1, numero);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                oProduto.setIdProduto(rs.getInt("idProduto"));
+                oProduto.setDescricaoProduto(rs.getString("descricaoProduto"));
+                oProduto.setMarcaProduto(rs.getString("marcaProduto"));
+                oProduto.setValorProduto(rs.getFloat("valorProduto"));
+            }
+            return oProduto;
+        } catch (SQLException ex) {
+            System.out.println("Erro no ProdutoDAOImpl ao excluir usuário: " + ex.getMessage());
+            return false;
+        } finally {
+            try {
+                ConnectionFactory.closeConnection(conexao, stmt);
+            } catch (Exception ex) {
+                System.out.println("Erro na ProdutoDAOImpl ao fechar conexão: " + ex.getMessage());
+            }
+        }
     }
 
     @Override
